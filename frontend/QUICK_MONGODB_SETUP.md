@@ -14,8 +14,8 @@ Enter your MongoDB password when prompted.
 2. Open it in Notepad and paste this (replace YOUR_PASSWORD with your actual password):
 
 ```env
-MONGODB_URI=mongodb+srv://asd:YOUR_PASSWORD@cluster0.exvf6au.mongodb.net/Digital_Wardrobe?retryWrites=true&w=majority&appName=Cluster0
-DATABASE_URL=mongodb+srv://asd:YOUR_PASSWORD@cluster0.exvf6au.mongodb.net/Digital_Wardrobe?retryWrites=true&w=majority&appName=Cluster0
+MONGODB_URI=mongodb+srv://asd:YOUR_PASSWORD@<your-cluster-url>.mongodb.net/Digital_Wardrobe?retryWrites=true&w=majority&appName=Cluster0
+DATABASE_URL=mongodb+srv://asd:YOUR_PASSWORD@<your-cluster-url>.mongodb.net/Digital_Wardrobe?retryWrites=true&w=majority&appName=Cluster0
 PORT=3000
 ```
 

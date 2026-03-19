@@ -34,7 +34,7 @@ This will connect to MongoDB and display all registered users.
 1. Download MongoDB Compass: https://www.mongodb.com/products/compass
 2. Connect using this connection string:
    ```
-   mongodb+srv://anuj876updon:KUX5YIVuVcyr7QlI@coatcard.fkxlnpr.mongodb.net/Digital_Wardrobe?retryWrites=true&w=majority&appName=Coatcard
+   mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
    ```
 3. Navigate to the `users` collection
 4. View all user documents (passwords will be hashed)
@@ -44,7 +44,7 @@ This will connect to MongoDB and display all registered users.
 ```bash
 # Install mongosh if you haven't
 # Then connect:
-mongosh "mongodb+srv://anuj876updon:KUX5YIVuVcyr7QlI@coatcard.fkxlnpr.mongodb.net/Digital_Wardrobe?retryWrites=true&w=majority&appName=Coatcard"
+mongosh "mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority"
 
 # Once connected, run:
 use Digital_Wardrobe

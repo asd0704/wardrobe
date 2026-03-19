@@ -9,8 +9,8 @@ echo.
 echo Creating .env.local file...
 echo.
 (
-echo MONGODB_URI=mongodb+srv://asd:%PASSWORD%@cluster0.exvf6au.mongodb.net/Digital_Wardrobe?retryWrites=true^&w=majority^&appName=Cluster0
-echo DATABASE_URL=mongodb+srv://asd:%PASSWORD%@cluster0.exvf6au.mongodb.net/Digital_Wardrobe?retryWrites=true^&w=majority^&appName=Cluster0
+echo MONGODB_URI=mongodb+srv://asd:%PASSWORD%@<your-cluster-url>.mongodb.net/Digital_Wardrobe?retryWrites=true^&w=majority^&appName=Cluster0
+echo DATABASE_URL=mongodb+srv://asd:%PASSWORD%@<your-cluster-url>.mongodb.net/Digital_Wardrobe?retryWrites=true^&w=majority^&appName=Cluster0
 echo PORT=3000
 ) > .env.local
 echo.

@@ -190,7 +190,7 @@ sudo apt-get update
 sudo apt-get install -y mongodb-mongosh
 
 # Test connection (replace with your connection string)
-mongosh "mongodb+srv://anuj876updon:KUX5YIVuVcyr7QlI@coatcard.fkxlnpr.mongodb.net/Digital_Wardrobe?retryWrites=true&w=majority&appName=Coatcard"
+mongosh "mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<dbname>"
 ```
 
 ## Quick Fixes

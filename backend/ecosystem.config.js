@@ -11,7 +11,7 @@ module.exports = {
     env: {
       NODE_ENV: 'production',
       PORT: 3000,
-      MONGODB_URI: process.env.MONGODB_URI || 'mongodb+srv://anuj876updon:KUX5YIVuVcyr7QlI@coatcard.fkxlnpr.mongodb.net/Digital_Wardrobe?retryWrites=true&w=majority&appName=Coatcard'
+      MONGODB_URI: process.env.MONGODB_URI || ''
     },
     error_file: '/home/ubuntu/digital-wardrobe/logs/err.log',
     out_file: '/home/ubuntu/digital-wardrobe/logs/out.log',
