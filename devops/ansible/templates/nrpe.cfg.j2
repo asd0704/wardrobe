@@ -1,0 +1,40 @@
+# NRPE Configuration File
+# This file is managed by Ansible
+
+# PID file
+pid_file=/var/run/nrpe/nrpe.pid
+
+# Server port
+server_port=5666
+
+# Server address (0.0.0.0 means listen on all interfaces)
+server_address=0.0.0.0
+
+# Allowed hosts (Nagios server IP)
+allowed_hosts={{ nagios_server_ip }},127.0.0.1
+
+# Don't use SSL
+dont_blame_nrpe=0
+
+# Command timeout
+command_timeout=60
+
+# Connection timeout
+connection_timeout=300
+
+# Debug mode (0=off, 1=on)
+debug=0
+
+# Command definitions
+command[check_users]=/usr/local/nagios/libexec/check_users -w 5 -c 10
+command[check_load]=/usr/local/nagios/libexec/check_load -w 15,10,5 -c 30,25,20
+command[check_disk]=/usr/local/nagios/libexec/check_disk -w 20% -c 10% -p /
+command[check_procs]=/usr/local/nagios/libexec/check_procs -w 250 -c 400
+command[check_swap]=/usr/local/nagios/libexec/check_swap -w 20% -c 10%
+command[check_mem]=/usr/local/nagios/libexec/check_memory -w 80 -c 90
+
+# Application-specific checks
+command[check_http]=/usr/local/nagios/libexec/check_http -H localhost -p 3000
+command[check_mongodb]=/usr/local/nagios/libexec/check_tcp -H localhost -p 27017
+command[check_node]=/usr/local/nagios/libexec/check_procs -C node -w 1: -c 1:1
+

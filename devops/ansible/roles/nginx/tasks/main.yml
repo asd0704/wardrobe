@@ -1,0 +1,41 @@
+---
+# Nginx reverse proxy configuration
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Remove default Nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Create Nginx configuration for application
+  template:
+    src: ../../templates/nginx.conf.j2
+    dest: /etc/nginx/sites-available/digital-wardrobe
+    owner: root
+    group: root
+    mode: '0644'
+  vars:
+    server_name: "{{ server_name | default('localhost') }}"
+    proxy_pass: "{{ proxy_pass | default('http://localhost:3000') }}"
+
+- name: Enable Nginx site
+  file:
+    src: /etc/nginx/sites-available/digital-wardrobe
+    dest: /etc/nginx/sites-enabled/digital-wardrobe
+    state: link
+
+- name: Test Nginx configuration
+  command: nginx -t
+  register: nginx_test
+  changed_when: false
+
+- name: Restart Nginx
+  systemd:
+    name: nginx
+    state: restarted
+  when: nginx_test.rc == 0
+

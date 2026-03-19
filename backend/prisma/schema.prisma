@@ -1,0 +1,175 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @map("_id") @default(cuid())
+  email         String   @unique
+  name          String?
+  password      String?
+  role          UserRole @default(USER)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relations
+  items         Item[]
+  outfits       Outfit[]
+  itemHistory   ItemHistory[]
+  auditLogs     AuditLog[]
+}
+
+model Item {
+  id              String       @id @map("_id") @default(cuid())
+  userId          String
+  filename        String
+  objectUrl       String
+  thumbnailUrl    String
+  processedUrl    String?
+  colors          String       // JSON array of colors
+  type            ClothingType
+  occasion        Occasion
+  season          Season
+  laundryStatus   LaundryStatus @default(IN_WARDROBE)
+  usageCount      Int          @default(0)
+  isFavorite      Boolean      @default(false)
+  moderated       Boolean      @default(false)
+  moderationNotes String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  
+  // Relations
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itemHistory     ItemHistory[]
+  outfitItems     OutfitItem[]
+  
+  @@index([userId])
+  @@index([type])
+  @@index([season])
+  @@index([laundryStatus])
+}
+
+model ItemHistory {
+  id          String      @id @map("_id") @default(cuid())
+  itemId      String
+  action      HistoryAction
+  timestamp   DateTime    @default(now())
+  performedBy String      // User ID who performed the action
+  notes       String?
+  
+  // Relations
+  item        Item        @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [performedBy], references: [id])
+  
+  @@index([itemId])
+  @@index([timestamp])
+}
+
+model Outfit {
+  id          String   @id @map("_id") @default(cuid())
+  userId      String
+  name        String
+  description String?
+  thumbnailUrl String?
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items       OutfitItem[]
+  
+  @@index([userId])
+}
+
+model OutfitItem {
+  id       String @id @map("_id") @default(cuid())
+  outfitId String
+  itemId   String
+  position Int    // Layer position (0 = base layer, 1 = outer, etc.)
+  
+  // Relations
+  outfit   Outfit @relation(fields: [outfitId], references: [id], onDelete: Cascade)
+  item     Item   @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  
+  @@unique([outfitId, itemId])
+}
+
+model AuditLog {
+  id        String   @id @map("_id") @default(cuid())
+  userId    String
+  action    String
+  payload   String?  // JSON data
+  timestamp DateTime @default(now())
+  ipAddress String?
+  
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+  
+  @@index([userId])
+  @@index([timestamp])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum ClothingType {
+  TOP
+  BOTTOM
+  DRESS
+  OUTERWEAR
+  SHOES
+  ACCESSORY
+  UNDERWEAR
+  SWIMWEAR
+  SPORTSWEAR
+}
+
+enum Occasion {
+  CASUAL
+  WORK
+  FORMAL
+  PARTY
+  SPORTS
+  BEACH
+  DATE_NIGHT
+  TRAVEL
+}
+
+enum Season {
+  SPRING
+  SUMMER
+  FALL
+  WINTER
+  ALL_SEASON
+}
+
+enum LaundryStatus {
+  IN_WARDROBE
+  IN_LAUNDRY
+  CLEAN
+  AWAY
+}
+
+enum HistoryAction {
+  CREATED
+  WORN
+  MARKED_LAUNDRY
+  RETURNED
+  EDITED
+  FAVORITED
+  UNFAVORITED
+  DELETED
+}

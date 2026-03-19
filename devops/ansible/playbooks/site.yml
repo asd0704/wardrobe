@@ -1,0 +1,5 @@
+---
+- import_playbook: common.yml
+- import_playbook: database.yml
+- import_playbook: application.yml
+- import_playbook: nagios.yml

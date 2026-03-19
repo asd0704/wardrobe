@@ -1,0 +1,111 @@
+# Nagios Main Configuration File
+# Managed by Ansible
+
+# Logging
+log_file=/usr/local/nagios/var/nagios.log
+log_archive_path=/usr/local/nagios/var/archives
+use_syslog=0
+log_notifications=1
+log_service_retries=1
+log_host_retries=1
+log_event_handlers=1
+log_initial_states=0
+log_external_commands=1
+log_passive_checks=1
+
+# Objects
+cfg_file=/usr/local/nagios/etc/objects/commands.cfg
+cfg_file=/usr/local/nagios/etc/objects/contacts.cfg
+cfg_file=/usr/local/nagios/etc/objects/timeperiods.cfg
+cfg_file=/usr/local/nagios/etc/objects/templates.cfg
+cfg_dir=/usr/local/nagios/etc/servers
+
+# Resource files
+resource_file=/usr/local/nagios/etc/resource.cfg
+
+# Status file
+status_file=/usr/local/nagios/var/status.dat
+status_update_interval=10
+
+# External command file
+command_file=/usr/local/nagios/var/rw/nagios.cmd
+
+# Lock file
+lock_file=/var/run/nagios.lock
+
+# State retention
+retain_state_information=1
+state_retention_file=/usr/local/nagios/var/retention.dat
+retention_update_interval=60
+
+# Performance data
+process_performance_data=1
+service_perfdata_file=/usr/local/nagios/var/service-perfdata
+host_perfdata_file=/usr/local/nagios/var/host-perfdata
+perfdata_timeout=5
+
+# Event broker
+event_broker_options=-1
+
+# Check result path
+check_result_path=/usr/local/nagios/var/spool/checkresults
+
+# Interval length
+interval_length=60
+
+# Aggressive host checking
+aggressive_host_checking=0
+
+# Auto-rescheduling
+auto_reschedule_checks=0
+auto_rescheduling_interval=30
+auto_rescheduling_window=180
+
+# Obsessing
+obsess_over_services=0
+obsess_over_hosts=0
+
+# Flap detection
+enable_flap_detection=1
+low_service_flap_threshold=5.0
+high_service_flap_threshold=20.0
+low_host_flap_threshold=5.0
+high_host_flap_threshold=20.0
+
+# Notifications
+enable_notifications=1
+enable_event_handlers=1
+notification_timeout=30
+
+# Service checks
+execute_service_checks=1
+accept_passive_service_checks=1
+max_service_check_spread=30
+service_inter_check_delay_method=s
+service_interleave_factor=s
+
+# Host checks
+execute_host_checks=1
+accept_passive_host_checks=1
+max_host_check_spread=30
+host_inter_check_delay_method=s
+max_concurrent_checks=0
+
+# Timeouts
+service_check_timeout=60
+host_check_timeout=30
+event_handler_timeout=30
+notification_timeout=30
+ocsp_timeout=5
+ochp_timeout=5
+
+# Date format
+date_format=iso8601
+
+# P1 file
+p1_file=/usr/local/nagios/bin/p1.pl
+
+# User and group
+nagios_user=nagios
+nagios_group=nagios
+

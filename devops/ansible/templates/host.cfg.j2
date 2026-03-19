@@ -1,0 +1,95 @@
+# Host Configuration for {{ item.name }}
+# Managed by Ansible
+
+define host{
+        use                     linux-server
+        host_name               {{ item.name }}
+        alias                   {{ item.name | title }} Server
+        address                 {{ item.ip }}
+        }
+
+# Service: PING
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     PING
+        check_command           check_ping!100.0,20%!500.0,60%
+        }
+
+# Service: SSH
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     SSH
+        check_command           check_ssh
+        notifications_enabled   1
+        }
+
+# Service: Root Partition
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     Root Partition
+        check_command           check_nrpe!check_disk
+        }
+
+# Service: Current Load
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     Current Load
+        check_command           check_nrpe!check_load
+        }
+
+# Service: Current Users
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     Current Users
+        check_command           check_nrpe!check_users
+        }
+
+# Service: Total Processes
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     Total Processes
+        check_command           check_nrpe!check_procs
+        }
+
+# Service: Swap Usage
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     Swap Usage
+        check_command           check_nrpe!check_swap
+        }
+
+{% if item.name == 'app-server' %}
+# Service: HTTP
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     HTTP
+        check_command           check_nrpe!check_http
+        }
+
+# Service: Node.js Process
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     Node.js Process
+        check_command           check_nrpe!check_node
+        }
+{% endif %}
+
+{% if item.name == 'db-server' %}
+# Service: MongoDB
+define service{
+        use                     local-service
+        host_name               {{ item.name }}
+        service_description     MongoDB
+        check_command           check_nrpe!check_mongodb
+        }
+{% endif %}
+

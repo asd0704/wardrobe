@@ -1,0 +1,17 @@
+[Unit]
+Description=Nagios Remote Plugin Executor
+After=network.target
+
+[Service]
+Type=simple
+User=nagios
+Group=nagios
+ExecStart=/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+

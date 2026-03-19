@@ -1,0 +1,113 @@
+---
+# NRPE (Nagios Remote Plugin Executor) installation and configuration
+- name: Install NRPE dependencies
+  apt:
+    name:
+      - build-essential
+      - libssl-dev
+    state: present
+    update_cache: yes
+  ignore_errors: yes
+
+- name: Try to install libnagios-plugin-perl (optional)
+  apt:
+    name: libnagios-plugin-perl
+    state: present
+  ignore_errors: yes
+  failed_when: false
+
+- name: Download NRPE source
+  get_url:
+    url: https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-4.1.0/nrpe-4.1.0.tar.gz
+    dest: /tmp/nrpe-4.1.0.tar.gz
+    mode: '0644'
+
+- name: Extract NRPE source
+  unarchive:
+    src: /tmp/nrpe-4.1.0.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+- name: Configure NRPE
+  shell: |
+    cd /tmp/nrpe-4.1.0
+    ./configure --enable-command-args --with-nagios-user=nagios --with-nagios-group=nagios --with-ssl=/usr/bin/openssl --with-ssl-lib=/usr/lib/x86_64-linux-gnu
+  args:
+    creates: /tmp/nrpe-4.1.0/Makefile
+
+- name: Compile NRPE
+  shell: |
+    cd /tmp/nrpe-4.1.0
+    make all
+  args:
+    creates: /tmp/nrpe-4.1.0/src/nrpe
+
+- name: Install NRPE (skip if nagios user doesn't exist)
+  shell: |
+    cd /tmp/nrpe-4.1.0
+    make install || true
+    make install-plugin || true
+    make install-daemon || true
+  args:
+    creates: /usr/local/nagios/bin/nrpe
+  ignore_errors: yes
+  failed_when: false
+  when: "'nagios' in ansible_user_id or ansible_user_id == 'root'"
+
+- name: Create nagios user if it doesn't exist
+  user:
+    name: nagios
+    system: yes
+    shell: /sbin/nologin
+    home: /var/lib/nagios
+    create_home: yes
+  ignore_errors: yes
+  failed_when: false
+
+- name: Configure NRPE
+  template:
+    src: nrpe.cfg.j2
+    dest: /usr/local/nagios/etc/nrpe.cfg
+    owner: root
+    group: root
+    mode: '0644'
+  vars:
+    nagios_server_ip: "{{ hostvars[groups['monitoring_servers'][0]]['ansible_default_ipv4']['address'] | default('127.0.0.1') }}"
+  when: groups['monitoring_servers'] is defined
+  ignore_errors: yes
+
+- name: Create systemd service for NRPE
+  copy:
+    content: |
+      [Unit]
+      Description=Nagios Remote Plugin Executor
+      After=network.target
+
+      [Service]
+      Type=simple
+      User=nagios
+      Group=nagios
+      ExecStart=/usr/local/nagios/bin/nrpe -c /usr/local/nagios/etc/nrpe.cfg -d
+      ExecReload=/bin/kill -HUP $MAINPID
+      KillMode=process
+      Restart=on-failure
+      RestartSec=10s
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/nrpe.service
+    owner: root
+    group: root
+    mode: '0644'
+  ignore_errors: yes
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+
+- name: Enable and start NRPE service
+  systemd:
+    name: nrpe
+    enabled: yes
+    state: started
+

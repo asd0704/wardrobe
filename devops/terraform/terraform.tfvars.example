@@ -1,0 +1,14 @@
+# Copy this file to terraform.tfvars and update with your values
+
+aws_region          = "ap-south-1"
+instance_type       = "t3.micro"
+key_name            = "your-keypair-name"
+app_port            = 3000
+db_instance_type    = "t3.micro"
+nagios_instance_type = "t3.micro"
+bucket_name_prefix  = "digital-wardrobe-storage"
+environment         = "production"
+
+# If you get "resource already exists" errors, add a suffix:
+# resource_name_suffix = "-v2"
+

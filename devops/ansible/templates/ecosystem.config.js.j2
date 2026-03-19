@@ -1,0 +1,22 @@
+module.exports = {
+  apps: [{
+    name: 'digital-wardrobe',
+    script: 'server.ts',
+    interpreter: 'tsx',
+    cwd: '{{ app_dir | default("/opt/digital-wardrobe") }}',
+    instances: 1,
+    exec_mode: 'fork',
+    env: {
+      NODE_ENV: 'production',
+      PORT: {{ app_port | default(3000) }}
+    },
+    error_file: '/var/log/digital-wardrobe/pm2-error.log',
+    out_file: '/var/log/digital-wardrobe/pm2-out.log',
+    log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+    merge_logs: true,
+    autorestart: true,
+    max_restarts: 10,
+    min_uptime: '10s'
+  }]
+};
+

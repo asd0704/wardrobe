@@ -1,0 +1,58 @@
+
+> nextjs_tailwind_shadcn_ts@0.1.0 dev
+> nodemon --exec "npx tsx server.ts" --watch server.ts --watch src --ext ts,tsx,js,jsx
+
+[33m[nodemon] 3.1.10[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): server.ts src\**\*[39m
+[33m[nodemon] watching extensions: ts,tsx,js,jsx[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+ ⨯ uncaughtException: Error: listen EADDRINUSE: address already in use ::1:3000
+    at <unknown> (Error: listen EADDRINUSE: address already in use ::1:3000) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::1',
+  port: 3000
+}
+ ⨯ uncaughtException:  Error: listen EADDRINUSE: address already in use ::1:3000
+    at <unknown> (Error: listen EADDRINUSE: address already in use ::1:3000) {
+  code: 'EADDRINUSE',
+  errno: -4091,
+  syscall: 'listen',
+  address: '::1',
+  port: 3000
+}
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+> Server ready on http://localhost:3000
+> Socket.IO server running at ws://localhost:3000/api/socketio
+> NODE_ENV: development
+> MongoDB URI: Configured
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+> Server ready on http://localhost:3000
+> Socket.IO server running at ws://localhost:3000/api/socketio
+> NODE_ENV: development
+> MongoDB URI: Configured
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+> Server ready on http://localhost:3000
+> Socket.IO server running at ws://localhost:3000/api/socketio
+> NODE_ENV: development
+> MongoDB URI: Configured
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `npx tsx server.ts`[39m
+> Server ready on http://localhost:3000
+> Socket.IO server running at ws://localhost:3000/api/socketio
+> NODE_ENV: development
+> MongoDB URI: Configured
+Terminate batch job (Y/N)? ^C^CTerminate batch job (Y/N)? Terminate batch job (Y/N)? 
